@@ -24,3 +24,18 @@ def home():
     </html>
     """
     return HTMLResponse(content=html_content, status_code=200)
+
+@app.exception(StarletteHTTPException)
+async def custom_404_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 404:
+        return HTMLResponse(
+            content="""
+            <html>
+                <head><title>404</title></head>
+                <body>
+                    <h1>404 NOT FOUND</h1>
+                </body>
+            </html>
+            """,
+            status_code=404
+        )
